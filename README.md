@@ -1,0 +1,13 @@
+# Agenda Telefónica - Backend
+
+Este es el backend de la Agenda Telefónica, desarrollado con Node.js y Express.
+
+La aplicación está desplegada en Render y se puede acceder en el siguiente enlace:
+
+[Ver backend en línea](https://part3-phonebook-backend.onrender.com)
+
+## Endpoints disponibles
+- GET /api/persons
+- GET /api/persons/:id
+- POST /api/persons
+- DELETE /api/persons/:id
