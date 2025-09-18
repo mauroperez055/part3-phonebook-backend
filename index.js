@@ -34,7 +34,7 @@ let persons = [
 ]
 
 app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>');
+  response.send('<h1>Agenda Telefónica Backend</h1><p>La API está disponible en /api/persons</p>');
 })
 
 app.get('/api/persons', (request, response) => {
