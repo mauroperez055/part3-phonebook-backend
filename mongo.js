@@ -47,14 +47,3 @@ if (process.argv.length === 3) {
   console.log("Uso: node mongo.js <password> [<name> <number>]");
   mongoose.connection.close();
 }
-
-
-/* const person = new Person({
-  name: "Mauro Perez",
-  number: "132456789"
-})
-
-person.save().then(result => {
-  console.log('person saved!');
-  mongoose.connection.close();
-}) */
