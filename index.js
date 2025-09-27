@@ -92,7 +92,29 @@ app.delete("/api/persons/:id", (request, response) => {
     });
 });
 
-//aca iria una ruta para actualizar un contacto
+//Ruta para actualizar el numero de una persona que ya existe
+app.put('/api/persons/:id', (request, response, next) => {
+  const newNumber = request.body.number;
+
+  if (!newNumber) {
+    const error = new Error('Number is missing');
+    error.name = 'MissingFieldError';
+    return next(error);
+  }
+
+  Person.findByIdAndUpdate(
+    request.params.id, 
+    { number: newNumber },
+    { new: true } 
+  )
+  .then(updatedPerson => {
+    if (updatedPerson) {
+      response.json(updatedPerson);
+    } else {
+      response.status(404).end();
+    }
+  })
+})
 
 // MIDDLEWARE DE CONTROL DE ERRORES
 
@@ -109,9 +131,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' });
-  }
-
-  if (error.name === 'MissingFieldError') {
+  } else if (error.name === 'MissingFieldError') {
+    console.log('falta nombre o numero');
     return response.status(400).send({ error: error.message });
   }
 
