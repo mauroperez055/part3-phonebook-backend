@@ -60,14 +60,14 @@ app.get("/api/persons/:id", (request, response) => {
 });
 
 // Ruta para agregar una nueva persona
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const body = request.body;
   console.log(body);
 
   if (!body.name || !body.number) {
-    return response.status(404).json({
-      error: "name or number is missing",
-    });
+    const error = new Error('Name or number is missing');
+    error.name = 'MissingFieldError';
+    return next(error);
   }
 
   const person = new Person({
@@ -94,7 +94,7 @@ app.delete("/api/persons/:id", (request, response) => {
 
 //aca iria una ruta para actualizar un contacto
 
-// MIDDLEWARE PARA MANEJO DE ERRORES
+// MIDDLEWARE DE CONTROL DE ERRORES
 
 // Middleware para capturar solicitudes a rutas no definidas
 const unknownEndpoint = (request, response) => {
@@ -103,6 +103,22 @@ const unknownEndpoint = (request, response) => {
 // Uso del middleware para manejar rutas no definidas
 app.use(unknownEndpoint);
 
+// Middleware para manejar errores
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' });
+  }
+
+  if (error.name === 'MissingFieldError') {
+    return response.status(400).send({ error: error.message });
+  }
+
+  next(error);
+}  
+
+app.use(errorHandler);
 
 // INICIAR SERVIDOR
 const PORT = process.env.PORT;
