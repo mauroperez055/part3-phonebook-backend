@@ -77,7 +77,8 @@ app.post("/api/persons", (request, response, next) => {
 
   person.save().then((savedPerson) => {
     response.json(savedPerson);
-  });
+  })
+  .catch(error => next(error));
 });
 
 // Ruta para eliminar una persona por su ID
@@ -134,6 +135,9 @@ const errorHandler = (error, request, response, next) => {
   } else if (error.name === 'MissingFieldError') {
     console.log('falta nombre o numero');
     return response.status(400).send({ error: error.message });
+  } else if (error.name === 'ValidationError') {
+    console.log("entro al erroHandler con ValidationError");
+    return response.status(400).json({ error: error.message });
   }
 
   next(error);
