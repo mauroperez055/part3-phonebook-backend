@@ -104,9 +104,9 @@ app.put('/api/persons/:id', (request, response, next) => {
   }
 
   Person.findByIdAndUpdate(
-    request.params.id, 
+    request.params.id,
     { number: newNumber },
-    { new: true } 
+    { new: true }
   )
   .then(updatedPerson => {
     if (updatedPerson) {
@@ -141,7 +141,7 @@ const errorHandler = (error, request, response, next) => {
   }
 
   next(error);
-}  
+}
 
 app.use(errorHandler);
 

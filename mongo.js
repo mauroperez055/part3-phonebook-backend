@@ -30,7 +30,7 @@ if (process.argv.length === 3) {
       result.forEach((person) => {
         console.log(`${person.name} ${person.number}`);
       });
-    mongoose.connection.close();  
+    mongoose.connection.close();
   });
 } else if (process.argv.length === 5) {
   // si se pasan 4 argumentos, agrega un nuevo contacto a la agenda
